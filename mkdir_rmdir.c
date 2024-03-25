@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include "lind_platform.h"
 
 #define DIR "testfolder"
 
