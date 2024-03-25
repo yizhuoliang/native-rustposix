@@ -9,12 +9,14 @@ OBJ=$(SRC:.c=.o)
 
 # Pattern rule for object files
 %.o: %.c
+	@echo "Don't forget export LD_LIBRARY_PATH"
 	$(CC) $(CFLAGS) $< -o $@
 
 # Default target
 all:
 	@echo "Usage: make <base_name_of_your_c_file>"
 	@echo "Example: make getpid"
+	@echo "Don't forget export LD_LIBRARY_PATH"
 
 # Dynamic target for compiling programs with a main function
 %: %.o $(OBJ)
