@@ -36,7 +36,7 @@ int main(void)
 	printf("read() ret: %d\n", ret);
 
 	for (size_t i = 0; i < sizeof fd / sizeof *fd; i++) {
-		if (close(fd[i]) < 0) {
+		if (lind_close(fd[i], 1) < 0) {
 			perror("close()");
 			exit(EXIT_FAILURE);
 		}
