@@ -11,14 +11,7 @@ unsigned long long NUMBER_OF_WRITES = 1ULL << (30 - 16);
 unsigned long long READ_BUFFER_SIZE = 1ULL << 16;
 unsigned long long OUTLOOP = 1UL << 4;
 
-pthread_barrier_t barrier; // wait for buffer allocation
 int fd[2];
-
-double getCurrentTime() {
-    struct timespec ts;
-    clock_gettime(CLOCK_MONOTONIC, &ts);
-    return ts.tv_sec + ts.tv_nsec / 1e9;
-}
 
 void* writerThreadFuncion(void *arg) {
     (void)arg;
@@ -31,8 +24,6 @@ void* writerThreadFuncion(void *arg) {
     // preapre the write buffer
     char *buffer = malloc(sizeof(char) * WRITE_BUFFER_SIZE);
     for (int i = 0; i < WRITE_BUFFER_SIZE; i++) buffer[i] = 'A';
-
-    // pthread_barrier_wait(&barrier);
 
     for (unsigned long long n = 0; n < OUTLOOP; n++)
     {
@@ -56,8 +47,6 @@ void* readerThreadFunction(void *arg) {
 
     // prepare the read buffer
     char *buffer = (char *)calloc(READ_BUFFER_SIZE, sizeof(char));
-    
-    // pthread_barrier_wait(&barrier);
 
     while ((lind_read(fd[0], buffer, READ_BUFFER_SIZE, 3)) > 0) {}
     
@@ -88,8 +77,6 @@ int main(int argc, char *argv[])
 		perror("pipe()");
 		exit(EXIT_FAILURE);
 	}
-    
-    // pthread_barrier_init(&barrier, NULL, 3);
 
     // create the cages (these don't really fork)
     rustposix_thread_init(1, 0);
@@ -118,17 +105,8 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    // prepare the timer
-    // double start, end;
-
-    // wait for: writer is ready to write, reader is ready to reead
-    // pthread_barrier_wait(&barrier);
-
-    // start = getCurrentTime();
     pthread_join(readerThread, NULL);
-    // end = getCurrentTime();
     pthread_join(writerThread, NULL);
 
-    // printf("Pipe took %f seconds to execute \n", end - start);
     return 0;
 }
