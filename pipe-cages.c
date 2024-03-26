@@ -34,9 +34,9 @@ void* writerThreadFuncion(void *arg) {
 
     // pthread_barrier_wait(&barrier);
 
-    for (int n = 0; n < OUTLOOP; n++)
+    for (unsigned long long n = 0; n < OUTLOOP; n++)
     {
-        for (int count = 0; count < NUMBER_OF_WRITES; count++)
+        for (unsigned long long count = 0; count < NUMBER_OF_WRITES; count++)
         {
             lind_write(fd[1], buffer, WRITE_BUFFER_SIZE, 2);
         }
