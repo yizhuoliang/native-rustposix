@@ -45,7 +45,7 @@ void* readerThreadFunction(void *arg) {
     
     pthread_barrier_wait(&barrier);
 
-    while ((readlen = lind_read(fd[0], buffer, READ_BUFFER_SIZE, 1)) > 0) {}
+    while ((ind_read(fd[0], buffer, READ_BUFFER_SIZE, 1)) > 0) {}
     
     free(buffer);
     return NULL;
@@ -85,9 +85,9 @@ int main(void)
     pthread_barrier_wait(&barrier);
 
     start = clock();
-    pthread_join(&readerThread, NULL);
+    pthread_join(readerThread, NULL);
     end = clock();
-    pthread_join(&writerThread, NULL);
+    pthread_join(writerThread, NULL);
 
     cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
 
