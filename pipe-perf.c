@@ -14,6 +14,12 @@ unsigned long long OUTLOOP = 1UL << 4;
 pthread_barrier_t barrier; // wait for buffer allocation
 int fd[2];
 
+double getCurrentTime() {
+    struct timespec ts;
+    clock_gettime(CLOCK_MONOTONIC, &ts);
+    return ts.tv_sec + ts.tv_nsec / 1e9;
+}
+
 void* writerThreadFuncion(void *arg) {
     (void)arg;
 
@@ -79,19 +85,18 @@ int main(void)
     }
 
     // prepare the timer
-    clock_t start, end;
-    double cpu_time_used;
+    double start, end, elapsed;
 
     // wait for: writer is ready to write, reader is ready to reead
     pthread_barrier_wait(&barrier);
 
-    start = clock();
+    start = getCurrentTime();
     pthread_join(readerThread, NULL);
-    end = clock();
+    end = getCurrentTime();
     pthread_join(writerThread, NULL);
 
-    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+    elapsed = end - start;
 
-    printf("Pipe took %f seconds to execute \n", cpu_time_used);
+    printf("Pipe took %f seconds to execute \n", elapsed);
     return 0;
 }
