@@ -75,6 +75,7 @@ int main(void)
     pthread_barrier_init(&barrier, NULL, 3);
 
     // create the cages (these don't really fork)
+    rustposix_thread_init(1, 0);
     lind_fork(2, 1); // for writer
     lind_fork(3, 1); // for reader
 
