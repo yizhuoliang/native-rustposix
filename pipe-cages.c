@@ -6,9 +6,9 @@
 #include <time.h>
 #include "lind_platform.h"
 
-unsigned long long WRITE_BUFFER_SIZE = 1UL << 16;
-unsigned long long NUMBER_OF_WRITES = 1UL << (30 - 14);
-unsigned long long READ_BUFFER_SIZE = 1UL << 16;
+unsigned long long WRITE_BUFFER_SIZE = 1ULL << 16;
+unsigned long long NUMBER_OF_WRITES = 1ULL << (30 - 14);
+unsigned long long READ_BUFFER_SIZE = 1ULL << 16;
 unsigned long long OUTLOOP = 1UL << 4;
 
 pthread_barrier_t barrier; // wait for buffer allocation
@@ -66,9 +66,22 @@ void* readerThreadFunction(void *arg) {
 }
 
 int main(void)
-{
+{   
+    // Setup the buffer sizes, default writer size is 2^16
+    if (argc > 2) {
+        int digitWriter = atoi(argv[1]);
+        int digitReader = atoi(argv[2]);
+        if (digitWriter >= 0 && digitWriter <= 63) {
+            WRITE_BUFFER_SIZE = 1ULL << digitWriter;
+            NUMBER_OF_WRITES = 1ULL << (30 - digitWriter);
+            READ_BUFFER_SIZE = 1ULL << digitReader;
+        } else {
+            perror("power out of range");
+            exit(EXIT_FAILURE);
+        }
+    }
+
     lindrustinit(0);
-    int ret;
 
     // make the pipes
     if (lind_pipe(fd, 1) < 0) {
