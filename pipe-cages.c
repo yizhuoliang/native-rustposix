@@ -38,10 +38,10 @@ void* writerThreadFuncion(void *arg) {
     {
         for (int count = 0; count < NUMBER_OF_WRITES; count++)
         {
-            lind_write(fd[1], buffer, WRITE_BUFFER_SIZE, 1);
+            lind_write(fd[1], buffer, WRITE_BUFFER_SIZE, 2);
         }
     }
-    lind_close(fd[1], 1);
+    lind_close(fd[1], 2);
     free(buffer);
     return NULL;
 }
@@ -59,7 +59,7 @@ void* readerThreadFunction(void *arg) {
     
     pthread_barrier_wait(&barrier);
 
-    while ((lind_read(fd[0], buffer, READ_BUFFER_SIZE, 1)) > 0) {}
+    while ((lind_read(fd[0], buffer, READ_BUFFER_SIZE, 3)) > 0) {}
     
     free(buffer);
     return NULL;
