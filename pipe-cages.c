@@ -65,7 +65,7 @@ void* readerThreadFunction(void *arg) {
     return NULL;
 }
 
-int main(void)
+int main(int argc, char *argv[])
 {   
     // Setup the buffer sizes, default writer size is 2^16
     if (argc > 2) {
