@@ -33,7 +33,7 @@ void* writerThreadFuncion(void *arg) {
             lind_write(fd[1], buffer, WRITE_BUFFER_SIZE, 1);
         }
     }
-    lind_close(fd[1]);
+    lind_close(fd[1], 1);
     free(buffer);
     return NULL;
 }
