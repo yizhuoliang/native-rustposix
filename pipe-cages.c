@@ -80,8 +80,13 @@ int main(void)
 
     // create the cages (these don't really fork)
     rustposix_thread_init(1, 0);
-    lind_fork(2, 1); // for writer
-    lind_fork(3, 1); // for reader
+    if(lind_fork(2, 1) < 0) {
+        perror("lind_fork() failed\n");
+        return 1;
+    } else if (lind_fork(3, 1) < 0) {
+        perror("lind_fork() failed\n");
+        return 1;
+    }
     printf("lind_fork success\n");
 
     // then Cage 1 can close both ends
