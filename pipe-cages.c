@@ -82,6 +82,7 @@ int main(void)
     rustposix_thread_init(1, 0);
     lind_fork(2, 1); // for writer
     lind_fork(3, 1); // for reader
+    printf("lind_fork success\n");
 
     // then Cage 1 can close both ends
     lind_close(fd[0], 1);
