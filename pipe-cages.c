@@ -24,7 +24,9 @@ void* writerThreadFuncion(void *arg) {
     (void)arg;
 
     // Cage 2 should close the read end
-    lind_close(fd[0], 2);
+    if(lind_close(fd[0], 2) < 0) {
+        perror("writer lind_close failed\n");
+    }
 
     // preapre the write buffer
     char *buffer = malloc(sizeof(char) * WRITE_BUFFER_SIZE);
@@ -48,7 +50,9 @@ void* readerThreadFunction(void *arg) {
     (void)arg;
 
     // Cage 3 should close the write end
-    lind_close(fd[1], 3);
+    if(lind_close(fd[1], 3) < 0) {
+        perror("reader lind_close failed\n");
+    }
 
     // prepare the read buffer
     char *buffer = (char *)calloc(READ_BUFFER_SIZE, sizeof(char));
