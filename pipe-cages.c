@@ -100,7 +100,6 @@ int main(int argc, char *argv[])
         perror("lind_fork() failed\n");
         return 1;
     }
-    printf("lind_fork success\n");
 
     // then Cage 1 can close both ends
     lind_close(fd[0], 1);
