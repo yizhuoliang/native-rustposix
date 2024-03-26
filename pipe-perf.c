@@ -45,7 +45,7 @@ void* readerThreadFunction(void *arg) {
     
     pthread_barrier_wait(&barrier);
 
-    while ((ind_read(fd[0], buffer, READ_BUFFER_SIZE, 1)) > 0) {}
+    while ((lind_read(fd[0], buffer, READ_BUFFER_SIZE, 1)) > 0) {}
     
     free(buffer);
     return NULL;
